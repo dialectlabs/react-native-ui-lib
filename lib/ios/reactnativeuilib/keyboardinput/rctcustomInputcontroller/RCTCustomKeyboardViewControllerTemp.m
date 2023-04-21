@@ -50,7 +50,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:(BOOL)animated];
-    self.rootView = nil;
+    self.rootView = nil; 
 }
 
 - (void) setAllowsSelfSizing:(BOOL)allowsSelfSizing
