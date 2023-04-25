@@ -9,7 +9,7 @@ console.info('PATH: ', __dirname);
 console.info('## Start RNUILib Build ##');
 
 console.info('## Build Typescript ##');
-childProcess.execSync('tsc --p ../tsconfig.build.json');
+childProcess.execSync('tsc --p tsconfig.build.json');
 
 console.info('## Build src files - convert TS to JS files ##');
 childProcess.execSync(`./node_modules/.bin/babel src --out-dir src ${BABEL_OPTIONS}`);
