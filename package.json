@@ -1,7 +1,7 @@
 {
   "name": "react-native-ui-lib",
   "version": "7.0.0",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "types": "src/index.d.ts",
   "author": "Ethan Sharabi <ethan.shar@gmail.com>",
   "homepage": "https://github.com/wix/react-native-ui-lib",
@@ -35,8 +35,7 @@
     "calendar:createMocks": "node scripts/createCalendarMockData.js",
     "snippets:build": "node scripts/generateSnippets.js",
     "demo": "./scripts/demo.sh",
-    "release": "node ./scripts/release.js",
-    "postinstall": "./scripts/build.js"
+    "release": "node ./scripts/release.js"
   },
   "dependencies": {
     "babel-plugin-transform-inline-environment-variables": "^0.0.2",
