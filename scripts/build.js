@@ -4,8 +4,6 @@ const fs = require('fs');
 const BABEL_OPTIONS = `--config-file ./src/.babelrc.json --extensions '.ts,.tsx' --ignore "src/**/*.d.ts"`;
 const BABEL_INDEX_EXPORTS_OPTIONS = `--config-file ./src/.babelrc.exports.js`;
 
-console.info('PATH: ', __dirname);
-
 console.info('## Start RNUILib Build ##');
 
 console.info('## Build Typescript ##');
