@@ -7,8 +7,8 @@
 
 #import "RCTCustomKeyboardViewControllerTemp.h"
 
-#if __has_include(<KeyboardTrackingView/ObservingInputAccessoryViewTemp.h>)
-#import <KeyboardTrackingView/ObservingInputAccessoryViewTemp.h>
+#if __has_include(<ObservingInputAccessoryViewTemp.h>)
+#import <ObservingInputAccessoryViewTemp.h>
 #define ObservingInputAccessoryViewTemp_IsAvailable true
 #endif
 
