@@ -409,7 +409,9 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
         {
             insets.bottom = bottomInset;
         }
-        self.scrollViewToManage.contentInset = insets;
+        [UIView animateWithDuration:0.2 animations:^{
+            self.scrollViewToManage.contentInset = insets;
+        }];
         
         if(self.scrollBehavior == KeyboardTrackingScrollBehaviorScrollToBottomInvertedOnly && _scrollIsInverted)
         {
@@ -424,7 +426,9 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
         else if(self.scrollBehavior == KeyboardTrackingScrollBehaviorFixedOffset && !self.isDraggingScrollView)
         {
             CGFloat insetsDiff = (bottomInset - originalBottomInset) * (self.scrollIsInverted ? -1 : 1);
-            self.scrollViewToManage.contentOffset = CGPointMake(originalOffset.x, originalOffset.y + insetsDiff);
+            [UIView animateWithDuration:0.2 animations:^{
+                self.scrollViewToManage.contentOffset = CGPointMake(originalOffset.x, originalOffset.y + insetsDiff);
+            }];
         }
         
         insets = self.scrollViewToManage.contentInset;
