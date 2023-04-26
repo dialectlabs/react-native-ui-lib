@@ -48,9 +48,8 @@
     return self;
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:(BOOL)animated];
-    self.rootView = nil; 
+- (void) dealloc {
+    self.rootView = nil;
 }
 
 - (void) setAllowsSelfSizing:(BOOL)allowsSelfSizing
