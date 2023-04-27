@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewStyle, ViewProps } from 'react-native';
+import {ViewStyle, ViewProps} from 'react-native';
 declare const SCROLL_BEHAVIORS: {
     NONE: any;
     SCROLL_TO_BOTTOM_INVERTED_ONLY: any;
@@ -71,11 +71,16 @@ export type KeyboardTrackingViewProps = ViewProps & {
      * Whether or not to include bottom tab bar inset
      */
     usesBottomTabs?: boolean;
+    /**
+     * iOS only.
+     * Whether or not the ScrollView is inverted
+     */
+    invertedScroll?: boolean;
     ref?: any;
     style?: ViewStyle;
     children?: React.ReactChild | React.ReactChild[];
 };
-declare const _default: React.ForwardRefExoticComponent<Omit<KeyboardTrackingViewProps, "ref"> & React.RefAttributes<unknown>> & {
+declare const _default: React.ForwardRefExoticComponent<Omit<KeyboardTrackingViewProps, 'ref'> & React.RefAttributes<unknown>> & {
     scrollBehaviors: typeof SCROLL_BEHAVIORS;
 };
 export default _default;

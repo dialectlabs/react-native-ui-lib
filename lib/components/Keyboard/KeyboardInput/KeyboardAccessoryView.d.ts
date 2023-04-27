@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { LayoutChangeEvent } from 'react-native';
-import { KeyboardTrackingViewProps } from '../KeyboardTracking/KeyboardTrackingView';
-type kbTrackingViewProps = Pick<KeyboardTrackingViewProps, 'scrollBehavior' | 'revealKeyboardInteractive' | 'manageScrollView' | 'requiresSameParentToManageScrollView' | 'allowHitsOutsideBounds' | 'addBottomView' | 'bottomViewColor' | 'useSafeArea' | 'usesBottomTabs'>;
+import React, {Component} from 'react';
+import {LayoutChangeEvent} from 'react-native';
+import {KeyboardTrackingViewProps} from '../KeyboardTracking/KeyboardTrackingView';
+type kbTrackingViewProps = Pick<KeyboardTrackingViewProps, 'scrollBehavior' | 'revealKeyboardInteractive' | 'manageScrollView' | 'requiresSameParentToManageScrollView' | 'allowHitsOutsideBounds' | 'addBottomView' | 'bottomViewColor' | 'useSafeArea' | 'usesBottomTabs' | 'invertedScroll'>;
 export type KeyboardAccessoryViewProps = kbTrackingViewProps & {
     /**
      * Content to be rendered above the keyboard
@@ -45,12 +45,12 @@ export type KeyboardAccessoryViewProps = kbTrackingViewProps & {
  * @gif: https://github.com/wix/react-native-ui-lib/blob/master/demo/showcase/KeyboardAccessoryView/KeyboardAccessoryView.gif?raw=true
  */
 declare class KeyboardAccessoryView extends Component<KeyboardAccessoryViewProps> {
-    static scrollBehaviors: {
+  static scrollBehaviors: {
         NONE: any;
         SCROLL_TO_BOTTOM_INVERTED_ONLY: any;
         FIXED_OFFSET: any;
     };
-    static defaultProps: {
+  static defaultProps: {
         revealKeyboardInteractive: boolean;
         manageScrollView: boolean;
         requiresSameParentToManageScrollView: boolean;
@@ -58,17 +58,17 @@ declare class KeyboardAccessoryView extends Component<KeyboardAccessoryViewProps
         allowHitsOutsideBounds: boolean;
         scrollBehavior: any;
     };
-    customInputControllerEventsSubscriber: any;
-    trackingViewRef: any;
-    constructor(props: KeyboardAccessoryViewProps);
-    componentWillUnmount(): void;
-    onContainerComponentHeightChanged(event: LayoutChangeEvent): void;
-    onAndroidBackPressed(): boolean;
-    getNativeProps(): Promise<any>;
-    registerForKeyboardResignedEvent(): void;
-    registerAndroidBackHandler(): void;
-    processInitialProps(): any;
-    scrollToStart(): void;
-    render(): JSX.Element;
+  customInputControllerEventsSubscriber: any;
+  trackingViewRef: any;
+  constructor(props: KeyboardAccessoryViewProps);
+  componentWillUnmount(): void;
+  onContainerComponentHeightChanged(event: LayoutChangeEvent): void;
+  onAndroidBackPressed(): boolean;
+  getNativeProps(): Promise<any>;
+  registerForKeyboardResignedEvent(): void;
+  registerAndroidBackHandler(): void;
+  processInitialProps(): any;
+  scrollToStart(): void;
+  render(): JSX.Element;
 }
 export default KeyboardAccessoryView;
