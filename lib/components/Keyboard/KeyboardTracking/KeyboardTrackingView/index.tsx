@@ -6,7 +6,7 @@ import {default as KeyboardTrackingViewAndroid} from './KeyboardTrackingView.and
 const isAndroid = Platform.OS === 'android';
 const SCROLL_BEHAVIORS = {
   NONE: NativeModules.KeyboardTrackingViewTempManager?.KeyboardTrackingScrollBehaviorNone,
-  SCROLL_TO_BOTTOM_INVERTED_ONLY: 
+  SCROLL_TO_BOTTOM_INVERTED_ONLY:
     NativeModules.KeyboardTrackingViewTempManager?.KeyboardTrackingScrollBehaviorScrollToBottomInvertedOnly,
   FIXED_OFFSET: NativeModules.KeyboardTrackingViewTempManager?.KeyboardTrackingScrollBehaviorFixedOffset
 };
@@ -77,6 +77,11 @@ export type KeyboardTrackingViewProps = ViewProps & {
    * Whether or not to include bottom tab bar inset
    */
   usesBottomTabs?: boolean;
+  /**
+   * iOS only.
+   * Whether or not the ScrollView is inverted
+   */
+  invertedScroll?: boolean;
   ref?: any;
   style?: ViewStyle;
   children?: React.ReactChild | React.ReactChild[];
@@ -91,6 +96,6 @@ const KeyboardTrackingView = forwardRef(({children, ...others}: KeyboardTracking
   );
 });
 
-export default KeyboardTrackingView as (typeof KeyboardTrackingView & {scrollBehaviors: typeof SCROLL_BEHAVIORS});
+export default KeyboardTrackingView as typeof KeyboardTrackingView & {scrollBehaviors: typeof SCROLL_BEHAVIORS};
 // @ts-expect-error
 KeyboardTrackingView.scrollBehaviors = SCROLL_BEHAVIORS;

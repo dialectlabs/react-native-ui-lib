@@ -42,6 +42,7 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
 
 @property (nonatomic, strong) UIScrollView *scrollViewToManage;
 @property (nonatomic) BOOL scrollIsInverted;
+@property (nonatomic, nullable) NSNumber *invertedScroll;
 @property (nonatomic) BOOL revealKeyboardInteractive;
 @property (nonatomic) BOOL isDraggingScrollView;
 @property (nonatomic) BOOL manageScrollView;
@@ -394,15 +395,18 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
 {
     if(self.scrollViewToManage != nil)
     {
+        BOOL invertedScrollIsCorrect = _invertedScroll == nil || (_invertedScroll != nil && [_invertedScroll boolValue] == self.scrollIsInverted);
+        BOOL scrollIsInvertedToUse = invertedScrollIsCorrect ? self.scrollIsInverted : !self.scrollIsInverted;
+
         UIEdgeInsets insets = self.scrollViewToManage.contentInset;
         CGFloat bottomSafeArea = [self getBottomSafeArea];
-        CGFloat bottomInset = MAX(self.bounds.size.height, _ObservingInputAccessoryViewTemp.keyboardHeight + _ObservingInputAccessoryViewTemp.height);
+        CGFloat bottomInset = MAX(self.bounds.size.height, _ObservingInputAccessoryViewTemp.keyboardHeight + _ObservingInputAccessoryViewTemp.height) * (invertedScrollIsCorrect ? 1 : -1);
         
-        CGFloat originalBottomInset = self.scrollIsInverted ? insets.top : insets.bottom;
+        CGFloat originalBottomInset = scrollIsInvertedToUse ? insets.top : insets.bottom;
         CGPoint originalOffset = self.scrollViewToManage.contentOffset;
         
         bottomInset += (_ObservingInputAccessoryViewTemp.keyboardHeight == 0 ? bottomSafeArea : 0);
-        if(self.scrollIsInverted)
+        if(scrollIsInvertedToUse)
         {
             insets.top = bottomInset;
         }
@@ -429,7 +433,7 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
         }
         else if(self.scrollBehavior == KeyboardTrackingScrollBehaviorFixedOffset && !self.isDraggingScrollView)
         {
-            CGFloat insetsDiff = (bottomInset - originalBottomInset) * (self.scrollIsInverted ? -1 : 1);
+            CGFloat insetsDiff = (bottomInset - originalBottomInset) * (scrollIsInvertedToUse ? -1 : 1);
             // if input accessory view first showing, don't animate scroll view offset
             CGFloat offsetDuration = originalOffset.y == 0 && insetsDiff < 0 ? 0.0 : 0.2;
             [UIView animateWithDuration:offsetDuration animations:^{
@@ -438,7 +442,7 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
         }
         
         insets = self.scrollViewToManage.contentInset;
-        if(self.scrollIsInverted)
+        if(scrollIsInvertedToUse)
         {
             insets.top = bottomInset;
         }
@@ -681,6 +685,7 @@ RCT_REMAP_VIEW_PROPERTY(useSafeArea, useSafeArea, BOOL)
 RCT_REMAP_VIEW_PROPERTY(usesBottomTabs, usesBottomTabs, BOOL)
 RCT_REMAP_VIEW_PROPERTY(scrollToFocusedInput, scrollToFocusedInput, BOOL)
 RCT_REMAP_VIEW_PROPERTY(allowHitsOutsideBounds, allowHitsOutsideBounds, BOOL)
+RCT_REMAP_VIEW_PROPERTY(invertedScroll, invertedScroll, NSNumber)
 
 + (BOOL)requiresMainQueueSetup
 {

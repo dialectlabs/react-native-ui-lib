@@ -16,7 +16,19 @@ import KeyboardUtils from './utils/KeyboardUtils';
 const IsIOS = Platform.OS === 'ios';
 const IsAndroid = Platform.OS === 'android';
 
-type kbTrackingViewProps = Pick<KeyboardTrackingViewProps, 'scrollBehavior' | 'revealKeyboardInteractive' | 'manageScrollView' | 'requiresSameParentToManageScrollView' | 'allowHitsOutsideBounds' | 'addBottomView' | 'bottomViewColor' | 'useSafeArea' | 'usesBottomTabs'>;
+type kbTrackingViewProps = Pick<
+  KeyboardTrackingViewProps,
+  | 'scrollBehavior'
+  | 'revealKeyboardInteractive'
+  | 'manageScrollView'
+  | 'requiresSameParentToManageScrollView'
+  | 'allowHitsOutsideBounds'
+  | 'addBottomView'
+  | 'bottomViewColor'
+  | 'useSafeArea'
+  | 'usesBottomTabs'
+  | 'invertedScroll'
+>;
 
 export type KeyboardAccessoryViewProps = kbTrackingViewProps & {
   /**
@@ -169,15 +181,8 @@ class KeyboardAccessoryView extends Component<KeyboardAccessoryViewProps> {
   }
 
   render() {
-    const {
-      renderContent,
-      kbInputRef,
-      kbComponent,
-      onItemSelected,
-      onRequestShowKeyboard,
-      scrollBehavior,
-      ...others
-    } = this.props;
+    const {renderContent, kbInputRef, kbComponent, onItemSelected, onRequestShowKeyboard, scrollBehavior, ...others} =
+      this.props;
 
     return (
       <KeyboardTrackingView
