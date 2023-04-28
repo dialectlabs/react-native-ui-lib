@@ -168,7 +168,6 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
 {
     [super layoutSubviews];
     [self updateBottomViewFrame];
-    [self _updateScrollViewInsets];
 }
 
 - (void)initializeAccessoryViewsAndHandleInsets
@@ -353,6 +352,7 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     _ObservingInputAccessoryViewTemp.height = self.bounds.size.height;
+    [self _updateScrollViewInsets];
 }
 
 - (void)ObservingInputAccessoryViewTempKeyboardWillDisappear:(ObservingInputAccessoryViewTemp *)ObservingInputAccessoryViewTemp
