@@ -1,0 +1,45 @@
+import { Animated, ViewProps as RNViewProps, StyleProp, ViewStyle } from 'react-native';
+import type { AnimateProps as RNReanimatedProps } from 'react-native-reanimated';
+import { ContainerModifiers } from '../../commons/new';
+import type { RecorderProps } from '../../typings/recorderTypes';
+/**
+ * Extra props when using reanimated (only non experimental props)
+ */
+type ReanimatedProps = Partial<Pick<RNReanimatedProps<object>, 'entering' | 'exiting' | 'layout'>>;
+export interface ViewProps extends Omit<RNViewProps, 'style'>, ReanimatedProps, ContainerModifiers, RecorderProps {
+    /**
+     * If true, will render as SafeAreaView
+     */
+    useSafeArea?: boolean;
+    /**
+     * Use Animate.View as a container
+     */
+    animated?: boolean;
+    /**
+     * Use Animate.View (from react-native-reanimated) as a container
+     */
+    reanimated?: boolean;
+    /**
+     * Turn off accessibility for this view and its nested children
+     */
+    inaccessible?: boolean;
+    /**
+     * TODO: probably isn't needed
+     */
+    width?: string | number;
+    /**
+     * TODO: probably isn't needed
+     */
+    height?: string | number;
+    /**
+     * Experimental: Pass time in ms to delay render
+     */
+    renderDelay?: number;
+    /**
+     * Set background color
+     */
+    backgroundColor?: string;
+    style?: StyleProp<ViewStyle | Animated.AnimatedProps<ViewStyle>>;
+}
+declare const _default: any;
+export default _default;
