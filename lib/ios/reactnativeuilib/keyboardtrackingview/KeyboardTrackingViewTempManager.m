@@ -168,6 +168,7 @@ typedef NS_ENUM(NSUInteger, KeyboardTrackingScrollBehavior) {
 {
     [super layoutSubviews];
     [self updateBottomViewFrame];
+    [self _updateScrollViewInsets];
 }
 
 - (void)initializeAccessoryViewsAndHandleInsets
