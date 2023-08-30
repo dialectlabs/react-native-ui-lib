@@ -5,9 +5,11 @@ import {FlatList, LayoutChangeEvent} from 'react-native';
 import {useSharedValue} from 'react-native-reanimated';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import SortableListContext from './SortableListContext';
-import SortableListItem from './SortableListItem';
+import SortableListItem, {DEFAULT_LIST_ITEM_HEIGHT} from './SortableListItem';
 import {useDidUpdate, useThemeProps} from 'hooks';
 import {SortableListProps, SortableListItemProps} from './types';
+import type {Dictionary} from '../../typings/common';
+
 export {SortableListProps, SortableListItemProps};
 
 function generateItemsOrder<ItemT extends SortableListItemProps>(data: SortableListProps<ItemT>['data']) {
@@ -22,11 +24,11 @@ function generateLockedIds<ItemT extends SortableListItemProps>(data: SortableLi
 
 const SortableList = <ItemT extends SortableListItemProps>(props: SortableListProps<ItemT>) => {
   const themeProps = useThemeProps(props, 'SortableList');
-  const {data, onOrderChange, enableHaptic, scale, ...others} = themeProps;
+  const {data, onOrderChange, enableHaptic, scale, itemProps, ...others} = themeProps;
 
   const itemsOrder = useSharedValue<string[]>(generateItemsOrder(data));
   const lockedIds = useSharedValue<Dictionary<boolean>>(generateLockedIds(data));
-  const itemHeight = useSharedValue<number>(52);
+  const itemHeight = useSharedValue<number>(DEFAULT_LIST_ITEM_HEIGHT);
 
   useDidUpdate(() => {
     itemsOrder.value = generateItemsOrder(data);
@@ -49,7 +51,7 @@ const SortableList = <ItemT extends SortableListItemProps>(props: SortableListPr
     const newHeight = Math.round(event.nativeEvent.layout.height);
     // Check validity for tests
     if (newHeight) {
-      itemHeight.value = newHeight;
+      itemHeight.value = newHeight + (itemProps?.margins?.marginTop ?? 0) + (itemProps?.margins?.marginBottom ?? 0);
     }
   }, []);
 
@@ -60,6 +62,7 @@ const SortableList = <ItemT extends SortableListItemProps>(props: SortableListPr
       lockedIds,
       onChange,
       itemHeight,
+      itemProps,
       onItemLayout,
       enableHaptic,
       scale

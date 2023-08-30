@@ -5,7 +5,6 @@ import {
   ImageStyle,
   StyleProp,
   StyleSheet,
-  Text,
   TextStyle,
   TouchableOpacityProps,
   ViewStyle,
@@ -17,6 +16,7 @@ import {BorderRadiuses, Colors, Spacings, Typography} from '../../style';
 import TouchableOpacity from '../touchableOpacity';
 import Image from '../image';
 import View from '../view';
+import Text from '../text';
 
 
 const LABEL_FORMATTER_VALUES = [1, 2, 3, 4] as const;
@@ -89,6 +89,7 @@ export type BadgeProps = ViewProps &
      * Custom element to render instead of an icon
      */
     customElement?: JSX.Element;
+    key?: string | number;
   };
 
 /**
@@ -209,6 +210,7 @@ class Badge extends PureComponent<BadgeProps> {
           allowFontScaling={false}
           numberOfLines={1}
           testID="badge"
+          recorderTag={'unmask'}
         >
           {this.getFormattedLabel()}
         </Text>

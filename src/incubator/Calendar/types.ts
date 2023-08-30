@@ -3,12 +3,21 @@ import {SharedValue} from 'react-native-reanimated';
 import {ButtonProps} from '../../components/button';
 
 export interface DateObject {
+  timestamp: number;
+  month: number;
+  year: number;
+  day: number;
+  dayOfTheWeek: number;
+}
+
+export interface DateObjectWithDate {
   month: number;
   year: number;
   day: number;
 }
 
 export interface DateObjectWithOptionalDay {
+  timestamp: number;
   month: number;
   year: number;
   day?: number;
@@ -60,12 +69,13 @@ export interface CalendarContextProps {
   staticHeader?: boolean;
   setHeaderHeight?: (height: number) => void;
   headerHeight: SharedValue<number>;
+  today: number;
 }
 
 export interface DayProps {
-  date: number | null;
+  date: number;
   onPress?: (date: number) => void;
-  inactive?: boolean; // inactive look but still pressable
+  currentMonth?: number;
 }
 
 export interface WeekProps {
@@ -110,13 +120,16 @@ export enum DayNamesFormat {
 export interface CalendarProps {
   data: Data;
   initialDate?: number;
-  onChangeDate: (date: number) => void;
+  onChangeDate?: (date: number) => void;
   firstDayOfWeek?: /* `${FirstDayOfWeek}` &  */ FirstDayOfWeek; // NOTE: template literals usage depends on ts min version ^4.3.2
   staticHeader?: boolean;
   showExtraDays?: boolean;
 }
 
 export interface AgendaProps {
+  renderEvent?: (event: Event) => React.ReactElement | null;
+  renderHeader?: (header: DateSectionHeader) => React.ReactElement | null;
+  itemHeight?: number;
   showLoader?: boolean;
   onEndReached?: (date: number) => void;
   // Type: list(events)/timeline

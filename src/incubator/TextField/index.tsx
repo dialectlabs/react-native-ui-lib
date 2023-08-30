@@ -46,6 +46,7 @@ const TextField = (props: InternalTextFieldProps) => {
   const {
     modifiers,
     // General
+    containerProps,
     fieldStyle: fieldStyleProp,
     dynamicFieldStyle,
     containerStyle,
@@ -68,6 +69,7 @@ const TextField = (props: InternalTextFieldProps) => {
     enableErrors, // TODO: rename to enableValidation
     validationMessageStyle,
     validationMessagePosition = ValidationMessagePosition.BOTTOM,
+    retainValidationSpace = true,
     // Char Counter
     showCharCounter,
     charCounterStyle,
@@ -114,16 +116,17 @@ const TextField = (props: InternalTextFieldProps) => {
   const _validationMessageStyle = useMemo(() => {
     return centered ? [validationMessageStyle, styles.centeredValidationMessage] : validationMessageStyle;
   }, [validationMessageStyle, centered]);
+  const hasValue = fieldState.value !== undefined;
   const inputStyle = useMemo(() => {
-    return [typographyStyle, colorStyle, others.style, centered && styles.centeredInput];
-  }, [typographyStyle, colorStyle, others.style, centered]);
+    return [typographyStyle, colorStyle, others.style, hasValue && centered && styles.centeredInput];
+  }, [typographyStyle, colorStyle, others.style, centered, hasValue]);
   const dummyPlaceholderStyle = useMemo(() => {
     return [inputStyle, styles.dummyPlaceholder];
   }, [inputStyle]);
 
   return (
     <FieldContext.Provider value={context}>
-      <View style={[margins, positionStyle, containerStyle, centeredContainerStyle]}>
+      <View {...containerProps} style={[margins, positionStyle, containerStyle, centeredContainerStyle]}>
         <Label
           label={label}
           labelColor={labelColor}
@@ -139,7 +142,7 @@ const TextField = (props: InternalTextFieldProps) => {
             validate={others.validate}
             validationMessage={others.validationMessage}
             validationMessageStyle={_validationMessageStyle}
-            retainSpace={retainTopMessageSpace}
+            retainValidationSpace={retainValidationSpace && retainTopMessageSpace}
             testID={`${props.testID}.validationMessage`}
           />
         )}
@@ -194,7 +197,7 @@ const TextField = (props: InternalTextFieldProps) => {
               validate={others.validate}
               validationMessage={others.validationMessage}
               validationMessageStyle={_validationMessageStyle}
-              retainSpace
+              retainValidationSpace={retainValidationSpace}
               testID={`${props.testID}.validationMessage`}
             />
           )}

@@ -24,10 +24,16 @@ export interface InternalSortableListItemProps {
 
 type Props = PropsWithChildren<InternalSortableListItemProps>;
 
+export const DEFAULT_LIST_ITEM_HEIGHT = 52;
+
 const animationConfig = {
   easing: Easing.inOut(Easing.ease),
   duration: 350
 };
+
+// Reanimated 3 - Solving the following error:
+// ReanimatedError: Trying to access property `$backgroundDefault` of an object which cannot be sent to the UI runtime., js engine: reanimated
+const LIST_ITEM_BACKGROUND = Colors.$backgroundDefault;
 
 const SortableListItem = (props: Props) => {
   const {children, index} = props;
@@ -35,6 +41,7 @@ const SortableListItem = (props: Props) => {
   const {
     data,
     itemHeight,
+    itemProps,
     onItemLayout,
     itemsOrder,
     lockedIds,
@@ -159,10 +166,11 @@ const SortableListItem = (props: Props) => {
       : defaultItemShadow.value;
 
     return {
-      backgroundColor: Colors.$backgroundDefault, // required for elevation to work in Android
+      backgroundColor: LIST_ITEM_BACKGROUND, // required for elevation to work in Android
       zIndex,
       transform: [{translateY: translateY.value}, {scale}],
       opacity,
+      ...itemProps?.margins,
       ...shadow
     };
   });

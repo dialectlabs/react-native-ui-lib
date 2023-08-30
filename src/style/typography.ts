@@ -2,7 +2,9 @@ import {TextStyle} from 'react-native';
 import _ from 'lodash';
 import Constants from '../commons/Constants';
 
-import TypographyPresets from './typographyPresets';
+import TypographyPresets, {TypographyKeys} from './typographyPresets';
+export type {TypographyKeys};
+import type {Dictionary, ExtendTypeWith} from '../typings/common';
 
 type MeasureTextTypography = TextStyle & {allowFontScaling?: boolean};
 
@@ -45,7 +47,7 @@ export class Typography {
   async measureTextSize(text: string,
     typography: MeasureTextTypography = TypographyPresets.text70!,
     containerWidth = Constants.screenWidth) {
-    const rnTextSize = require('react-native-text-size').default;
+    const rnTextSize = require('wix-react-native-text-size').default;
     if (text) {
       const size = await rnTextSize.measure({
         text, // text to measure, can include symbols

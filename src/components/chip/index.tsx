@@ -11,7 +11,6 @@ import TouchableOpacity, {TouchableOpacityProps} from '../touchableOpacity';
 import View from '../view';
 import Icon, {IconProps} from '../icon';
 
-
 export type ChipProps = ViewProps & TouchableOpacityProps & {
   //GENERAL
   /**
@@ -161,6 +160,7 @@ const Chip = ({
   resetSpacings,
   size = DEFAULT_SIZE,
   useSizeAsMinimum = true,
+  recorderTag,
   testID,
   ...others
 }: ChipProps) => {
@@ -170,7 +170,6 @@ const Chip = ({
 
     return (
       <Icon
-        //@ts-expect-error
         source={isLeftIcon ? iconSource : rightIconSource}
         testID={`${testID}.icon`}
         tintColor={Colors.$iconDefault}
@@ -233,6 +232,7 @@ const Chip = ({
         $textDefault
         style={[styles.label, getMargins('label'), labelStyle]}
         testID={`${testID}.label`}
+        recorderTag={recorderTag}
       >
         {!!label && label}
       </Text>
@@ -278,7 +278,7 @@ const Chip = ({
               marginRight: Spacings.s2
             };
           } else {
-            return {marginHorizontal: Spacings.s3};
+            return {paddingHorizontal: Spacings.s3};
           }
         case 'avatar':
           return {

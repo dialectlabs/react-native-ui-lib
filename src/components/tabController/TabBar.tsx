@@ -19,6 +19,7 @@ import useScrollToItem from './useScrollToItem';
 import {orientations} from '../../commons/Constants';
 import {useDidUpdate} from 'hooks';
 
+const FIX_RTL = Constants.isRTL && Constants.isAndroid;
 const DEFAULT_HEIGHT = 48;
 const DEFAULT_BACKGROUND_COLOR = Colors.$backgroundElevated;
 
@@ -165,13 +166,7 @@ const TabBar = (props: Props) => {
   const tabBar = useRef<typeof FadedScrollView>();
   const [key, setKey] = useState<orientations>(Constants.orientation);
   const context = useContext(TabBarContext);
-  const {
-    items: contextItems,
-    currentPage,
-    targetPage,
-    initialIndex,
-    containerWidth: contextContainerWidth
-  } = context;
+  const {items: contextItems, currentPage, targetPage, containerWidth: contextContainerWidth} = context;
   const containerWidth: number = useMemo(() => {
     return propsContainerWidth || contextContainerWidth;
   }, [propsContainerWidth, contextContainerWidth]);
@@ -194,7 +189,7 @@ const TabBar = (props: Props) => {
     // @ts-expect-error TODO: typing bug
     scrollViewRef: tabBar,
     itemsCount,
-    selectedIndex: initialIndex,
+    selectedIndex: FIX_RTL ? itemsCount - currentPage.value - 1 : currentPage.value,
     containerWidth,
     offsetType: centerSelected ? useScrollToItem.offsetType.CENTER : useScrollToItem.offsetType.DYNAMIC
   });

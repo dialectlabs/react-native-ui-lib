@@ -1,6 +1,7 @@
 import {createContext} from 'react';
 import {ViewProps} from 'react-native';
 import {SharedValue} from 'react-native-reanimated';
+import type {Dictionary} from '../../typings/common';
 import {Data, SortableListItemProps} from './types';
 
 export interface SortableListContextType<ItemT extends SortableListItemProps> {
@@ -12,6 +13,7 @@ export interface SortableListContextType<ItemT extends SortableListItemProps> {
   onItemLayout: ViewProps['onLayout'];
   enableHaptic?: boolean;
   scale?: number;
+  itemProps?: {margins?: {marginTop?: number; marginBottom?: number; marginLeft?: number; marginRight?: number}};
 }
 
 // @ts-ignore

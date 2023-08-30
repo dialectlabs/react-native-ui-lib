@@ -146,6 +146,18 @@ const WheelPicker = ({
   const prevIndex = useRef(currentIndex);
   const [flatListWidth, setFlatListWidth] = useState(0);
   const keyExtractor = useCallback((item: ItemProps, index: number) => `${item}.${index}`, []);
+  const androidFlatListProps = useMemo(() => {
+    if (Constants.isAndroid) {
+      return {
+        maxToRenderPerBatch: items.length
+      };
+    }
+  }, [items]);
+
+  useEffect(() => {
+    //This effect should replace the onLyout function in the flatlist, should happen only once
+    scrollToIndex(currentIndex, true);
+  }, []);
 
   useEffect(() => {
     // This effect making sure to reset index if initialValue has changed
@@ -192,10 +204,6 @@ const WheelPicker = ({
     onMomentumScrollEndAndroid(index);
     setTimeout(() => scrollToOffset(index, animated), 100);
   };
-
-  const scrollToPassedIndex = useCallback(() => {
-    scrollToIndex(currentIndex, false);
-  }, []);
 
   const selectItem = useCallback((index: number) => {
     scrollToIndex(index, true);
@@ -323,6 +331,7 @@ const WheelPicker = ({
       <View row centerH>
         <View flexG>
           <AnimatedFlatList
+            {...androidFlatListProps}
             {...flatListProps}
             testID={`${testID}.list`}
             listKey={`${testID}.flatList`}
@@ -334,7 +343,6 @@ const WheelPicker = ({
             onScroll={scrollHandler}
             onMomentumScrollEnd={onValueChange}
             showsVerticalScrollIndicator={false}
-            onLayout={scrollToPassedIndex}
             // @ts-ignore
             ref={scrollView}
             // @ts-expect-error
@@ -343,7 +351,7 @@ const WheelPicker = ({
             decelerationRate={Constants.isAndroid ? 0.98 : 'normal'}
             renderItem={renderItem}
             getItemLayout={getItemLayout}
-            initialScrollIndex={currentIndex}
+            initialScrollIndex={Constants.isIOS ? currentIndex : undefined}
             onContentSizeChange={updateFlatListWidth}
             /* This fixes an issue with RTL when centering flatlist content using alignSelf */
             centerContent={align === 'center' && Constants.isRTL}

@@ -4,14 +4,23 @@ import {Platform, StyleSheet, LayoutAnimation, LayoutChangeEvent, ImageStyle, Te
 import {asBaseComponent, forwardRef, Constants} from '../../commons/new';
 import {Colors, Typography, BorderRadiuses} from 'style';
 import TouchableOpacity from '../touchableOpacity';
+import type {Dictionary} from '../../typings/common';
 import Text from '../text';
 import Image from '../image';
 import Icon from '../icon';
+import {
+  ButtonSize,
+  ButtonAnimationDirection,
+  ButtonProps,
+  ButtonState,
+  Props,
+  DEFAULT_PROPS,
+  ButtonSizeProp
+} from './ButtonTypes';
+import {PADDINGS, HORIZONTAL_PADDINGS, MIN_WIDTH, DEFAULT_SIZE} from './ButtonConstants';
 
-import {ButtonSize, ButtonAnimationDirection, ButtonProps, ButtonState, Props, DEFAULT_PROPS} from './ButtonTypes';
 export {ButtonSize, ButtonAnimationDirection, ButtonProps};
 
-import {PADDINGS, HORIZONTAL_PADDINGS, MIN_WIDTH, DEFAULT_SIZE} from './ButtonConstants';
 
 class Button extends PureComponent<Props, ButtonState> {
   static displayName = 'Button';
@@ -247,7 +256,7 @@ class Button extends PureComponent<Props, ButtonState> {
     const iconStyle: ImageStyle = {
       tintColor: this.getLabelColor()
     };
-    const marginSide = [Button.sizes.large, Button.sizes.medium].includes(size) ? 8 : 4;
+    const marginSide = ([Button.sizes.large, Button.sizes.medium] as ButtonSizeProp[]).includes(size) ? 8 : 4;
 
     if (!this.isIconButton) {
       if (iconOnRight) {
@@ -315,6 +324,7 @@ class Button extends PureComponent<Props, ButtonState> {
           underline={hyperlink}
           numberOfLines={1}
           testID={`${testID}.label`}
+          recorderTag={'unmask'}
           {...labelProps}
         >
           {label}

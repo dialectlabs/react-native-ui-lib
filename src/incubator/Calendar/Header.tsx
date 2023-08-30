@@ -1,10 +1,11 @@
+import throttle from 'lodash/throttle';
 import React, {useContext, useCallback} from 'react';
-import {StyleSheet, TextInput, LayoutChangeEvent} from 'react-native';
+import {StyleSheet, TextInput, Text, LayoutChangeEvent} from 'react-native';
 import Reanimated, {useAnimatedProps} from 'react-native-reanimated';
 import {Colors, Typography} from 'style';
 import View from '../../components/view';
 import Button from '../../components/button';
-import {getDateObject, getMonthForIndex, addMonths, getTimestamp} from './helpers/DateUtils';
+import {getDateObject, getMonthForIndex, addMonths} from './helpers/DateUtils';
 import {HeaderProps, DayNamesFormat, UpdateSource} from './types';
 import CalendarContext from './CalendarContext';
 import WeekDaysNames from './WeekDaysNames';
@@ -21,26 +22,29 @@ const Header = (props: HeaderProps) => {
   const {selectedDate, setDate, showWeeksNumbers, staticHeader, setHeaderHeight} = useContext(CalendarContext);
 
   const getNewDate = useCallback((count: number) => {
-    const newDate = addMonths(selectedDate.value, count);
-    const dateObject = getDateObject(newDate);
-    return getTimestamp({year: dateObject.year, month: dateObject.month, day: 1});
+    return addMonths(selectedDate.value, count, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onLeftArrowPress = useCallback(() => {
+  const onLeftArrowPress = useCallback(throttle(() => {
     setDate(getNewDate(-1), UpdateSource.MONTH_ARROW);
-  }, [setDate, getNewDate]);
+  }, 300), [setDate, getNewDate]);
 
-  const onRightArrowPress = useCallback(() => {
+  const onRightArrowPress = useCallback(throttle(() => {
     setDate(getNewDate(1), UpdateSource.MONTH_ARROW);
-  }, [setDate, getNewDate]);
+  }, 300), [setDate, getNewDate]);
 
-  const animatedProps = useAnimatedProps(() => {
-    const dateObject = getDateObject(selectedDate.value);
-    const monthString = getMonthForIndex(staticHeader ? dateObject.month : month!);
-    const dateString = staticHeader ? monthString + ` ${dateObject.year}` : monthString + ` ${year}`;
+  const getTitle = useCallback((date: number) => {
+    'worklet';
+    const dateObject = getDateObject(date);
+    const m = dateObject.month;
+    const y = dateObject.year;
+    return getMonthForIndex(m) + ` ${y}`;
+  }, []);
+
+  const animatedProps = useAnimatedProps(() => { // get called only on value update
     return {
-      text: dateString
+      text: getTitle(selectedDate.value)
     };
   });
 
@@ -49,8 +53,18 @@ const Header = (props: HeaderProps) => {
   }, [setHeaderHeight]);
 
   const renderTitle = () => {
-    // @ts-expect-error
-    return <AnimatedTextInput {...{animatedProps}} editable={false} style={styles.title}/>;
+    if (!staticHeader) {
+      const title = getMonthForIndex(month!) + ` ${year}`;
+      return <Text style={styles.title}>{title}</Text>;
+    }
+    return (
+      // @ts-expect-error
+      <AnimatedTextInput 
+        value={getTitle(selectedDate.value)} // setting initial value
+        {...{animatedProps}}
+        editable={false}
+        style={styles.title}
+      />);
   };
 
   const renderArrow = (source: number, onPress: () => void) => {

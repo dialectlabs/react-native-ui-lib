@@ -1,11 +1,11 @@
+import {DateObjectWithOptionalDay} from '../types';
 
 export function generateMonthItems(date: number, pastRange: number, futureRange: number) {
-  const currentDate = new Date(date);
-  const currentYear = currentDate.getFullYear();
-  const monthItems = [];
+  const currentYear = new Date(date).getFullYear();
+  const monthItems: DateObjectWithOptionalDay[] = [];
   for (let year = currentYear - pastRange; year <= currentYear + futureRange; year++) {
     for (let month = 0; month < 12; month++) {
-      monthItems.push({year, month});
+      monthItems.push({timestamp: date, year, month});
     }
   }
   return monthItems;
